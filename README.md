@@ -1,2 +1,3 @@
 # veo-nim
-my neovim config
+my ass, shitty neovim config
+uhh
