@@ -11,11 +11,23 @@ return {
                 generate_requires_npm = true,
                 requires_generate_from_grammar = true,
             },
-            filetype = "zed",
+            	filetype = "zed",
             }
             vim.treesitter.language.register('zed', 'zed')  -- the someft filetype will use the python parser and queries.
-            local config = require("nvim-treesitter.configs")
-            config.setup({
+            
+
+            require('nvim-treesitter.parsers').get_parser_configs().zura = {
+            install_info = {
+                url = "/home/devvy/Projects/tree-sitter-zura",
+                files = { "src/parser.c" },
+                generate_requires_npm = true,
+                requires_generate_from_grammar = true,
+            },
+            	filetype = "zura", 
+            }
+            vim.treesitter.language.register('zura', 'zura')  -- the someft filetype will use the python parser and queries.
+			local config = require("nvim-treesitter.configs")
+			config.setup({
                 ensure_installed = {
                     "lua",
                     "python",

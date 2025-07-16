@@ -1,5 +1,6 @@
+-- In your lazy.nvim plugin setup file (e.g., lua/plugins/colorscheme.lua):
 return {
-    "catppuccin/nvim",
+	"catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
     config = function()
@@ -10,9 +11,10 @@ return {
                 telescope = true,
                 cmp = true,
                 lsp_saga = true,
-            },
-        })
-        vim.cmd.colorscheme "catppuccin" -- Set the colorscheme
+            	bufferline = true
+			},
+        }) 
+		vim.cmd.colorscheme "catppuccin"
     end,
     custom_highlights = function(colors)
         return {
@@ -20,20 +22,6 @@ return {
         }
     end
 
+
 }
 
---
---return {
-	--"catppuccin/nvim",
-	--name = "catppuccin",
-	--priority = 1000,
-    --opt = { 
-      --  transparent_background = true,
-    --},
-  --  config = function()
---	    vim.cmd.colorscheme("catppuccin")
---	end,
-    
-
-
---}

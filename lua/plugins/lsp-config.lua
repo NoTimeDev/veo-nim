@@ -39,7 +39,22 @@ return {
 			local on_attach = function(client, bufnr)
 				-- Create your keybindings here...
 			end
-			-- lua
+            local configs = require("lspconfig.configs")
+			
+            if not configs.zura_ls then
+                configs.zura_ls = {
+                    default_config = {
+                        cmd = { "zura", "-lsp" },
+                        filetypes = { "zura" }, 
+                        root_dir = {".zura"} 
+                    },
+                }
+            end
+
+            lspconfig.zura_ls.setup({})
+  
+
+            -- lua
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
 			})
