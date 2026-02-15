@@ -24,8 +24,7 @@ syn match zuraStruct /\<\(struct\|enum\)\>/
 syn match zuraFunction /\<fn\>\s\+\w\+\ze\s*[(]/
 
 " Highlight operators
-syn match zuraOperator /[:=(){}\[\],;.+\-*/<>]/
-
+syn match zuraOperator /[:=(){}\[\],;.+\-*/<>]
 " Highlight variables (avoid matching keywords)
 syn match zuraVariable /\<[a-zA-Z_]\w*\>/ contains=zuraKeyword,zuraType
 

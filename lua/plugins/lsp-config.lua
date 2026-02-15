@@ -12,7 +12,7 @@ return {
 
 	{
 		"folke/neodev.nvim",
-		opts = {},
+		opts = {}
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
@@ -22,11 +22,9 @@ return {
 					"lua_ls",
 					"pyright",
 					"clangd",
-                    "ruff",
-                    "black",
-		            "rust_analyzer",
-                    "denols"
-                },
+					"gopls", 
+					"jdtls"
+				},
 			})
 		end,
 	},
@@ -36,27 +34,52 @@ return {
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local lspconfig = require("lspconfig")
+			local util = require "lspconfig/util"
 			local on_attach = function(client, bufnr)
 				-- Create your keybindings here...
 			end
-            local configs = require("lspconfig.configs")
+			local configs = require("lspconfig.configs")
 			
-            if not configs.zura_ls then
-                configs.zura_ls = {
-                    default_config = {
-                        cmd = { "zura", "-lsp" },
-                        filetypes = { "zura" }, 
-                        root_dir = {".zura"} 
-                    },
-                }
-            end
+			lspconfig.gopls.setup({
+				capabilities = capabilities,
+                on_attach = on_attach,
+				settings = {
+					gopls = {
+						analyses = {
+							unusedparams = true,
+						},
+						staticcheck = true,
+						gofumpt = true,
+					},
+				},
+			})
 
-            lspconfig.zura_ls.setup({})
-  
-
+			lspconfig.jdtls.setup({
+				on_attach = on_attach, 
+				capabilities = capabilities
+			})
             -- lua
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
+			  settings = {
+			    Lua = {
+			      diagnostics = {
+			        globals = { "vim" },
+			      },
+			      hint = {
+			        enable = true,
+			      },
+			      workspace = {
+			        library = {
+			          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+			          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+			          [vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy"] = true,
+			        },
+			        maxPreload = 100000,
+			        preloadFileSize = 10000,
+			      },
+			    },
+			  },
 			})
 
 			-- c++
@@ -65,34 +88,28 @@ return {
                 on_attach = on_attach
 			})
             -- rust 
-            lspconfig.rust_analyzer.setup({
-				capabilities = capabilities,
-                on_attach = on_attach,
-                filetypes = {'rust'},
-                cargo = {
-                    allFeatures  = true,
-                }
-            })
-            -- asm 
-            
-            --typescript
-            lspconfig.denols.setup({
-                capabilities = capabilities,
-                on_attach = on_attach
-            })
+           -- asm
 			--python
+			 
+			lspconfig.rust_analyzer.setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				filetypes = {"rust"},
+				root_dir = util.root_pattern("Cargo.toml"),
+				settings = {
+					['rust-analyzer'] = {
+						cargo = {
+							allFeatures = true 
+						}
+					}
+				}
+			})
 			lspconfig.pyright.setup({
-				setting = {
-                    python = {
-                        pythonpath = "C:/Users/Dev/AppData/Local/Programs/Python/Python313/python.exe",
-                        analysis = {
-                            autoSearchPaths = true,
-                            useLibraryCodeForTypes = true,
-                            extraPaths = {"./src", "./lib"} 
-                        }
-                    }
-                }, 
-                on_attach = on_attach,
+				root_dir = function(fname)
+				return lspconfig.util.root_pattern('pyrightconfig.json', 'pyproject.toml', '.git')(fname)
+           or vim.fn.getcwd()
+				end,
+				on_attach = on_attach,
 				capabilities = capabilities,
 				filetypes = { "python" },
 			})

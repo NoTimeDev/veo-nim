@@ -37,8 +37,10 @@ return {
                     "json",
                     "rust",
                     "typescript",
-                    "javascript"
-                },
+                    "javascript",
+                	"go",
+					"java"
+				},
                 highlight = { enable = true,
 
                     additional_vim_regex_highlighting = false,

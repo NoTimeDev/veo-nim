@@ -14,9 +14,9 @@ syntax match zrComment "!ac.*$"
 syntax match zrDollarVar "^\s*[a-zA-Z_][a-zA-Z0-9_]*:"
 syntax match zrComment "#.*$"
 
-highlight zrDollarVar ctermfg=Blue guifg=#569CD6
+highlight link zrDollarVar Identifier  
 highlight link zrKeyword Keyword
-highlight zrString ctermfg=Green guifg=#98C379
+highlight link zrString String
 highlight link zrType Type
 highlight link zrNumber Number
 highlight link zrComment Comment
